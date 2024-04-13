@@ -1,0 +1,79 @@
+
+House Price Prediction
+
+TechnoHacks Task 1
+
+In [110]:
+
+import pandas as pd import numpy as np import matplotlib.pyplot as plt import seaborn as sns %matplotlib inline 
+
+In [111]:
+
+data = pd.read_csv('kc_house_data.csv') 
+
+In [112]:
+
+data.shape 
+
+Out[112]:
+
+(21613, 21)
+
+In [113]:
+
+data.dtypes 
+
+Out[113]:
+
+id int64 date object price float64 bedrooms int64 bathrooms float64 sqft_living int64 sqft_lot int64 floors float64 waterfront int64 view int64 condition int64 grade int64 sqft_above int64 sqft_basement int64 yr_built int64 yr_renovated int64 zipcode int64 lat float64 long float64 sqft_living15 int64 sqft_lot15 int64 dtype: object
+
+In [114]:
+
+data.head() 
+
+Out[114]:
+
+iddatepricebedroomsbathroomssqft_livingsqft_lotfloorswaterfrontview...gradesqft_abovesqft_basementyr_builtyr_renovatedzipcodelatlongsqft_living15sqft_lot150712930052020141013T000000221900.031.00118056501.000...711800195509817847.5112-122.257134056501641410019220141209T000000538000.032.25257072422.000...72170400195119919812547.7210-122.319169076392563150040020150225T000000180000.021.00770100001.000...67700193309802847.7379-122.233272080623248720087520141209T000000604000.043.00196050001.000...71050910196509813647.5208-122.393136050004195440051020150218T000000510000.032.00168080801.000...816800198709807447.6168-122.04518007503
+
+5 rows × 21 columns
+
+In [115]:
+
+data.tail() 
+
+Out[115]:
+
+iddatepricebedroomsbathroomssqft_livingsqft_lotfloorswaterfrontview...gradesqft_abovesqft_basementyr_builtyr_renovatedzipcodelatlongsqft_living15sqft_lot152160826300001820140521T000000360000.032.50153011313.000...815300200909810347.6993-122.3461530150921609660006012020150223T000000400000.042.50231058132.000...823100201409814647.5107-122.3621830720021610152330014120140623T000000402101.020.75102013502.000...710200200909814447.5944-122.299102020072161129131010020150116T000000400000.032.50160023882.000...816000200409802747.5345-122.0691410128721612152330015720141015T000000325000.020.75102010762.000...710200200809814447.5941-122.29910201357
+
+5 rows × 21 columns
+
+In [116]:
+
+data.isnull().sum() 
+
+Out[116]:
+
+id 0 date 0 price 0 bedrooms 0 bathrooms 0 sqft_living 0 sqft_lot 0 floors 0 waterfront 0 view 0 condition 0 grade 0 sqft_above 0 sqft_basement 0 yr_built 0 yr_renovated 0 zipcode 0 lat 0 long 0 sqft_living15 0 sqft_lot15 0 dtype: int64
+
+In [117]:
+
+data.info() 
+
+<class 'pandas.core.frame.DataFrame'> RangeIndex: 21613 entries, 0 to 21612 Data columns (total 21 columns): # Column Non-Null Count Dtype --- ------ -------------- ----- 0 id 21613 non-null int64 1 date 21613 non-null object 2 price 21613 non-null float64 3 bedrooms 21613 non-null int64 4 bathrooms 21613 non-null float64 5 sqft_living 21613 non-null int64 6 sqft_lot 21613 non-null int64 7 floors 21613 non-null float64 8 waterfront 21613 non-null int64 9 view 21613 non-null int64 10 condition 21613 non-null int64 11 grade 21613 non-null int64 12 sqft_above 21613 non-null int64 13 sqft_basement 21613 non-null int64 14 yr_built 21613 non-null int64 15 yr_renovated 21613 non-null int64 16 zipcode 21613 non-null int64 17 lat 21613 non-null float64 18 long 21613 non-null float64 19 sqft_living15 21613 non-null int64 20 sqft_lot15 21613 non-null int64 dtypes: float64(5), int64(15), object(1) memory usage: 3.5+ MB 
+
+In [118]:
+
+data.isna().sum() 
+
+Out[118]:
+
+id 0 date 0 price 0 bedrooms 0 bathrooms 0 sqft_living 0 sqft_lot 0 floors 0 waterfront 0 view 0 condition 0 grade 0 sqft_above 0 sqft_basement 0 yr_built 0 yr_renovated 0 zipcode 0 lat 0 long 0 sqft_living15 0 sqft_lot15 0 dtype: int64
+
+In [119]:
+
+data.drop_duplicates() 
+
+Out[119]:
+
+iddatepricebedroomsbathroomssqft_livingsqft_lotfloorswaterfrontview...gradesqft_abovesqft_basementyr_builtyr_renovatedzipcodelatlongsqft_living15sqft_lot150712930052020141013T000000221900.031.00118056501.000...711800195509817847.5112-122.257134056501641410019220141209T000000538000.032.25257072422.000...72170400195119919812547.7210-122.319169076392563150040020150225T000000180000.021.00770100001.000...67700193309802847.7379-122.233272080623248720087520141209T000000604000.043.00196050001.000...71050910196509813647.5208-122.393136050004195440051020150218T000000510000.032.00168080801.000...816800198709807447.6168-122.04518007503..................................................................2160826300001820140521T000000360000.032.50153011313.000...815300200909810347.6993-122.3461530150921609660006012020150223T000000400000.042.50231058132.000...823100201409814647.5107-122.3621830720021610
+
